@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: [
-		'**/*.{html,js,php}',
+		'./**/*.{html,js,php}',
 		'./assets/**/*.{html,js,php}',
 		'./node_modules/flowbite/**/*.js',
 		'./node_modules/preline/dist/*.js',
@@ -26,8 +26,8 @@ module.exports = {
 				inter: ['Inter', 'sans-serif'],
 			},
 			spacing: {
-				128: '32rem',
-				144: '36rem',
+				// 128: '32rem',
+				// 144: '36rem',
 				'8xl': '96rem',
 				'9xl': '128rem',
 			},

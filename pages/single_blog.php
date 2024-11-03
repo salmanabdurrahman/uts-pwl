@@ -45,23 +45,23 @@
                                     </svg>
                                     Home
                                 </a>
-                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="#">
+                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="../pages/blog.php">
                                     <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M12 12h.01" />
                                         <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
                                         <path d="M22 13a18.15 18.15 0 0 1-20 0" />
                                         <rect width="20" height="14" x="2" y="6" rx="2" />
                                     </svg>
-                                    Work
+                                    Blog
                                 </a>
-                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="#">
+                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="../pages/contact.php">
                                     <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
                                         <path d="M18 14h-8" />
                                         <path d="M15 18h-5" />
                                         <path d="M10 6h8v4h-8V6Z" />
                                     </svg>
-                                    Blog
+                                    Contact
                                 </a>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <div class="w-full h-px md:w-px md:h-4 bg-gray-100 md:bg-gray-300"></div>
                         </div>
                         <div class=" flex flex-wrap items-center gap-x-1.5">
-                            <a class="py-2 px-2.5 inline-flex items-center font-medium text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="../pages/login.php">
+                            <a class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="../pages/login.php">
                                 Sign in
                             </a>
                         </div>
@@ -166,12 +166,11 @@
                     </div>
                 </div>
                 <div class="col-span-1">
-                    <h4 class="font-semibold text-gray-100">Company</h4>
+                    <h4 class="font-semibold text-gray-100">Alternative Links</h4>
                     <div class="mt-3 grid space-y-3">
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">About us</a></p>
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">Blog</a></p>
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">Careers</a> <span class="inline-block ms-1 text-xs bg-blue-700 text-white py-1 px-2 rounded-lg">We're hiring</span></p>
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">Customers</a></p>
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="../pages/home.php">Home</a></p>
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="../pages/blog.php">Blog</a></p>
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="../pages/contact.php">Contact</a></p>
                     </div>
                 </div>
                 <div class="col-span-2">
@@ -186,9 +185,6 @@
                                 Subscribe
                             </a>
                         </div>
-                        <p class="mt-3 text-sm text-gray-400">
-                            New UI kits or big discounts. Never spam.
-                        </p>
                     </form>
                 </div>
             </div>

@@ -45,23 +45,23 @@
                                     </svg>
                                     Home
                                 </a>
-                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="#">
+                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="../pages/blog.php">
                                     <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M12 12h.01" />
                                         <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
                                         <path d="M22 13a18.15 18.15 0 0 1-20 0" />
                                         <rect width="20" height="14" x="2" y="6" rx="2" />
                                     </svg>
-                                    Work
+                                    Blog
                                 </a>
-                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="#">
+                                <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100" href="../pages/contact.php">
                                     <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
                                         <path d="M18 14h-8" />
                                         <path d="M15 18h-5" />
                                         <path d="M10 6h8v4h-8V6Z" />
                                     </svg>
-                                    Blog
+                                    Contact
                                 </a>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <div class="w-full h-px md:w-px md:h-4 bg-gray-100 md:bg-gray-300"></div>
                         </div>
                         <div class=" flex flex-wrap items-center gap-x-1.5">
-                            <a class="py-2 px-2.5 inline-flex items-center font-medium text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="../pages/login.php">
+                            <a class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="../pages/login.php">
                                 Sign in
                             </a>
                         </div>
@@ -80,7 +80,7 @@
     </header>
     <!-- header -->
     <!-- login form -->
-    <section class="py-[100px] sm:px-6 lg:px-8 max-w-[450px] mx-auto">
+    <section class="py-[100px] sm:px-6 lg:px-8 max-w-[512px] mx-auto">
         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
@@ -97,16 +97,16 @@
                     <form action="../config/login_action.php" method="POST">
                         <div class="grid gap-y-4">
                             <div>
-                                <label for="email" class="block text-sm mb-2">Email address</label>
+                                <label for="username" class="block text-sm mb-2">Username</label>
                                 <div class="relative">
-                                    <input type="email" id="email" name="email" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="email-error">
+                                    <input type="text" id="username" name="username" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="username-error">
                                     <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                                         <svg class="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
                                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
                                         </svg>
                                     </div>
                                 </div>
-                                <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email address so we can get back to you</p>
+                                <p class="hidden text-xs text-red-600 mt-2" id="username-error">Please include a valid username</p>
                             </div>
                             <div>
                                 <div class="flex justify-between items-center">
@@ -154,12 +154,11 @@
                     </div>
                 </div>
                 <div class="col-span-1">
-                    <h4 class="font-semibold text-gray-100">Company</h4>
+                    <h4 class="font-semibold text-gray-100">Alternative Links</h4>
                     <div class="mt-3 grid space-y-3">
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">About us</a></p>
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">Blog</a></p>
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">Careers</a> <span class="inline-block ms-1 text-xs bg-blue-700 text-white py-1 px-2 rounded-lg">We're hiring</span></p>
-                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="#">Customers</a></p>
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="../pages/home.php">Home</a></p>
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="../pages/blog.php">Blog</a></p>
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200" href="../pages/contact.php">Contact</a></p>
                     </div>
                 </div>
                 <div class="col-span-2">
@@ -174,9 +173,6 @@
                                 Subscribe
                             </a>
                         </div>
-                        <p class="mt-3 text-sm text-gray-400">
-                            New UI kits or big discounts. Never spam.
-                        </p>
                     </form>
                 </div>
             </div>
