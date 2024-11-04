@@ -100,12 +100,12 @@
                         <p class="text-lg text-gray-600">Get the latest news and updates from SimpleNews, your trusted news source. Stay informed with our comprehensive coverage of politics, business, technology, and more.</p>
                     </div>
                     <div class="mt-8 gap-3 flex justify-center">
-                        <a class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="../pages/blog.php">
+                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" id="scroll-down">
                             Explore SimpleNews
                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="m9 18 6-6-6-6" />
                             </svg>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -317,6 +317,13 @@
     <script src="../node_modules/preline/dist/preline.js"></script>
     <!-- js -->
     <script src="../assets/js/script.js"></script>
+    <script>
+        // scroll down button
+        const scrollDownButton = document.getElementById('scroll-down');
+        scrollDownButton.addEventListener('click', function() {
+            window.scrollTo(0, 550);
+        });
+    </script>
 </body>
 
 </html>
