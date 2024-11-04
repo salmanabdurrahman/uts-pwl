@@ -96,31 +96,31 @@
                 <h2 class="mb-8 text-xl font-semibold text-gray-800">
                     Fill in the form
                 </h2>
-                <form>
+                <form action="../config/contact_action.php" method="POST">
                     <div class="grid gap-4 lg:gap-6">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                             <div>
-                                <label for="hs-firstname-contacts-1" class="block mb-2 text-sm text-gray-700 font-medium">First Name</label>
-                                <input type="text" name="hs-firstname-contacts-1" id="hs-firstname-contacts-1" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                <label for="firstname" class="block mb-2 text-sm text-gray-700 font-medium">First Name</label>
+                                <input type="text" name="firstname" id="firstname" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                             </div>
                             <div>
-                                <label for="hs-lastname-contacts-1" class="block mb-2 text-sm text-gray-700 font-medium">Last Name</label>
-                                <input type="text" name="hs-lastname-contacts-1" id="hs-lastname-contacts-1" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                <label for="lastname" class="block mb-2 text-sm text-gray-700 font-medium">Last Name</label>
+                                <input type="text" name="lastname" id="lastname" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                             </div>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                             <div>
-                                <label for="hs-email-contacts-1" class="block mb-2 text-sm text-gray-700 font-medium">Email</label>
-                                <input type="email" name="hs-email-contacts-1" id="hs-email-contacts-1" autocomplete="email" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                <label for="email" class="block mb-2 text-sm text-gray-700 font-medium">Email</label>
+                                <input type="email" name="email" id="email" autocomplete="email" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                             </div>
                             <div>
-                                <label for="hs-phone-number-1" class="block mb-2 text-sm text-gray-700 font-medium">Phone Number</label>
-                                <input type="text" name="hs-phone-number-1" id="hs-phone-number-1" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                <label for="number" class="block mb-2 text-sm text-gray-700 font-medium">Phone Number</label>
+                                <input type="text" name="number" id="number" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                             </div>
                         </div>
                         <div>
-                            <label for="hs-about-contacts-1" class="block mb-2 text-sm text-gray-700 font-medium">Details</label>
-                            <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" rows="4" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"></textarea>
+                            <label for="details" class="block mb-2 text-sm text-gray-700 font-medium">Details</label>
+                            <textarea id="details" name="details" rows="4" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"></textarea>
                         </div>
                     </div>
                     <div class="mt-6 grid">
@@ -145,11 +145,11 @@
                     Subscribe to our newsletter to receive news, updates and tips about SimpleNews.
                 </p>
             </div>
-            <form>
+            <form action="#" method="POST">
                 <div class="w-full sm:max-w-lg md:ms-auto">
                     <div class="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
                         <div class="w-full">
-                            <label for="hero-input" class="sr-only">Search</label>
+                            <label for="subscribe" class="sr-only">Search</label>
                             <input type="text" id="subscribe" name="subscribe" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter your email">
                         </div>
                         <button type="submit" class="w-full sm:w-auto whitespace-nowrap py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">

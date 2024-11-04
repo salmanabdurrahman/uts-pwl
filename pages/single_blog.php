@@ -151,7 +151,7 @@
     </section>
     <!-- blog article -->
     <!-- subscribe -->
-    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-16 mx-auto">
+    <section class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-16 mx-auto">
         <div class="grid md:grid-cols-2 gap-8">
             <div class="max-w-md">
                 <h2 class="text-2xl font-bold md:text-3xl md:leading-tight">Stay up to date</h2>
@@ -176,7 +176,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </section>
     <!-- subscribe -->
     <!-- footer -->
     <footer class="bg-gray-900">
