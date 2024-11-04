@@ -27,7 +27,7 @@
 
     // Check if user is already logged in
     if (isset($_SESSION['user_id'])) {
-        header("Location: ../pages/home.php");
+        header("Location: ../admin/dashboard.php");
         exit();
     }
 
@@ -89,7 +89,7 @@
                     'Success',
                     'Login successful',
                     'OK',
-                    '../pages/home.php'
+                    '../admin/dashboard.php'
                 );
                 exit();
             }
