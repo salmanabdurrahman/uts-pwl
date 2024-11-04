@@ -137,7 +137,7 @@
     </section>
     <!-- contact -->
     <!-- subscribe -->
-    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-16 mx-auto">
+    <section class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-16 mx-auto">
         <div class="grid md:grid-cols-2 gap-8">
             <div class="max-w-md">
                 <h2 class="text-2xl font-bold md:text-3xl md:leading-tight">Stay up to date</h2>
@@ -145,12 +145,12 @@
                     Subscribe to our newsletter to receive news, updates and tips about SimpleNews.
                 </p>
             </div>
-            <form action="#" method="POST">
+            <form id="subscribeForm" method="post">
                 <div class="w-full sm:max-w-lg md:ms-auto">
                     <div class="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
                         <div class="w-full">
-                            <label for="subscribe" class="sr-only">Search</label>
-                            <input type="text" id="subscribe" name="subscribe" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter your email">
+                            <label for="email" class="sr-only">Search</label>
+                            <input type="email" id="email" name="email" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter your email">
                         </div>
                         <button type="submit" class="w-full sm:w-auto whitespace-nowrap py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                             Subscribe
@@ -162,7 +162,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </section>
     <!-- subscribe -->
     <!-- footer -->
     <footer class="bg-gray-900">
