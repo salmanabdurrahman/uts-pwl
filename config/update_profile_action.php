@@ -39,7 +39,6 @@
             $username = $_SESSION['username'];
             $fullname = filter_var(trim($_POST['fullname']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
-            $phone = filter_var(trim($_POST['number'] ?? ''), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $gender = filter_var(trim($_POST['gender']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password = trim($_POST['password']);
             $new_password = trim($_POST['new-password']);
@@ -70,7 +69,7 @@
             $result = $stmt->get_result();
             $user = $result->fetch_assoc();
 
-            if ($password != $user['password']) {
+            if ($password !== $user['password']) {
                 swal_error(
                     'Error',
                     'Current password is incorrect',
@@ -80,10 +79,10 @@
                 exit();
             }
 
-            $updated_password = !empty($new_password) ? $new_password : $user['password'];
+            $updated_password = !empty($new_password) ? $new_password : $password;
 
-            $update_stmt = $conn->prepare("UPDATE users SET full_name = ?, email = ?, phone = ?, gender = ?, password = ? WHERE user_id = ?");
-            $update_stmt->bind_param("sssssi", $fullname, $email, $phone, $gender, $updated_password, $user_id);
+            $update_stmt = $conn->prepare("UPDATE users SET full_name = ?, email = ?, gender = ?, password = ? WHERE user_id = ?");
+            $update_stmt->bind_param("ssssi", $fullname, $email, $gender, $updated_password, $user_id);
             $update_stmt->execute();
 
             swal_success(
