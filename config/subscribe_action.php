@@ -1,5 +1,4 @@
 <?php
-// Import required files
 require_once '../config/config.php';
 require_once '../config/validation.php';
 
@@ -7,10 +6,8 @@ header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        // Get and sanitize email input
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
 
-        // Validate email field
         if (empty($email)) {
             echo json_encode([
                 "status" => "error",
@@ -19,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        // Check if email already exists in the subscribe table
         $check_stmt = $conn->prepare("SELECT subscribe_id FROM subscribe WHERE email = ?");
         $check_stmt->bind_param("s", $email);
         $check_stmt->execute();
@@ -33,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        // Insert new subscription into database
         $stmt = $conn->prepare("INSERT INTO subscribe (email) VALUES (?)");
         $stmt->bind_param("s", $email);
 

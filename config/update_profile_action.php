@@ -16,16 +16,13 @@
 
 <body>
     <?php
-    // Import required files
     require_once '../config/config.php';
     require_once '../config/validation.php';
 
-    // Start session if not already started
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
-    // Check if user is logged in
     if (!isset($_SESSION['user_id'])) {
         swal_error(
             'Error',
@@ -36,20 +33,17 @@
         exit();
     }
 
-    // Check if form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
-            // Get form data and sanitize inputs
             $user_id = $_SESSION['user_id'];
-            $username = $_SESSION['username']; // Username cannot be changed
+            $username = $_SESSION['username'];
             $fullname = filter_var(trim($_POST['fullname']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
-            // $phone = filter_var(trim($_POST['number']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $phone = filter_var(trim($_POST['number'] ?? ''), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $gender = filter_var(trim($_POST['gender']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password = trim($_POST['password']);
             $new_password = trim($_POST['new-password']);
 
-            // Basic validation
             if (empty($fullname) || empty($email) || empty($password)) {
                 swal_error(
                     'Error',
@@ -60,7 +54,6 @@
                 exit();
             }
 
-            // Validate email format
             if (!$email) {
                 swal_error(
                     'Error',
@@ -71,21 +64,13 @@
                 exit();
             }
 
-            // Validate password (check if current password is correct)
             $stmt = $conn->prepare("SELECT password FROM users WHERE user_id = ?");
-            if (!$stmt) {
-                throw new Exception("Database preparation failed");
-            }
-
             $stmt->bind_param("i", $user_id);
-            if (!$stmt->execute()) {
-                throw new Exception("Database execution failed");
-            }
-
+            $stmt->execute();
             $result = $stmt->get_result();
             $user = $result->fetch_assoc();
 
-            if (!password_verify($password, $user['password'])) {
+            if ($password != $user['password']) {
                 swal_error(
                     'Error',
                     'Current password is incorrect',
@@ -95,21 +80,12 @@
                 exit();
             }
 
-            // If new password is provided, hash it
-            $new_password_hashed = !empty($new_password) ? password_hash($new_password, PASSWORD_DEFAULT) : $user['password'];
+            $updated_password = !empty($new_password) ? $new_password : $user['password'];
 
-            // Prepare update query
             $update_stmt = $conn->prepare("UPDATE users SET full_name = ?, email = ?, phone = ?, gender = ?, password = ? WHERE user_id = ?");
-            if (!$update_stmt) {
-                throw new Exception("Database preparation for update failed");
-            }
+            $update_stmt->bind_param("sssssi", $fullname, $email, $phone, $gender, $updated_password, $user_id);
+            $update_stmt->execute();
 
-            $update_stmt->bind_param("sssssi", $fullname, $email, $phone, $gender, $new_password_hashed, $user_id);
-            if (!$update_stmt->execute()) {
-                throw new Exception("Database execution for update failed");
-            }
-
-            // Show success message and redirect
             swal_success(
                 'Success',
                 'Profile updated successfully',
@@ -126,20 +102,11 @@
                 'javascript:history.back()'
             );
         } finally {
-            // Close statements if they exist
-            if (isset($stmt)) {
-                $stmt->close();
-            }
-            if (isset($update_stmt)) {
-                $update_stmt->close();
-            }
-            // Close connection
-            if (isset($conn)) {
-                $conn->close();
-            }
+            if (isset($stmt)) $stmt->close();
+            if (isset($update_stmt)) $update_stmt->close();
+            if (isset($conn)) $conn->close();
         }
     } else {
-        // Redirect if accessed directly
         header("Location: ../admin/dashboard.php");
         exit();
     }
