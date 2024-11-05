@@ -1,3 +1,22 @@
+<?php
+session_start();
+include '../config/config.php';
+
+$isLoggedIn = isset($_SESSION['user_id']);
+
+if ($isLoggedIn) {
+    $user_id = $_SESSION['user_id'];
+    $query = "SELECT * FROM users WHERE user_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
@@ -69,9 +88,50 @@
                             <div class="w-full h-px md:w-px md:h-4 bg-gray-100 md:bg-gray-300"></div>
                         </div>
                         <div class=" flex flex-wrap items-center gap-x-1.5">
-                            <a class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="../pages/login.php">
-                                Sign in
-                            </a>
+                            <?php if (!$isLoggedIn): ?>
+                                <a class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="../pages/login.php">
+                                    Sign in
+                                </a>
+                            <?php else: ?>
+                                <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
+                                    <button id="hs-dropdown-account" type="button"
+                                        class="size-[38px] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                                        aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                                        <img class="shrink-0 size-[25px] rounded-full block" src="../assets/images/user.png"
+                                            alt="Avatar">
+                                    </button>
+                                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-4 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-50"
+                                        role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-account">
+                                        <div class="py-3 px-5 bg-gray-100 rounded-t-lg">
+                                            <p class="text-sm text-gray-500">Signed in as</p>
+                                            <p class="text-sm font-medium text-gray-800"><?= htmlspecialchars($user['email']) ?></p>
+                                        </div>
+                                        <div class="p-1.5 space-y-0.5">
+                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                href="../admin/dashboard.php">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                                </svg>
+                                                Dashboard
+                                            </a>
+                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                href="../config/logout.php">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                                    <polyline points="16 17 21 12 16 7" />
+                                                    <line x1="21" y1="12" x2="9" y2="12" />
+                                                </svg>
+                                                Log Out
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
