@@ -28,7 +28,7 @@ function swal_error(string $title, string $text, string $button = 'OK', string $
                 text: '$text',
                 confirmButtonText: '$button'
             })" . ($redirect ? ".then(() => { window.location.href = '$redirect'; })" : "") . ";
-        }, 2000);
+        }, 500);
     </script>
     ";
 }
@@ -48,7 +48,7 @@ function swal_success(string $title, string $text, string $button = 'OK', string
                 text: '$text',
                 confirmButtonText: '$button'
             })" . ($redirect ? ".then(() => { window.location.href = '$redirect'; })" : "") . ";
-        }, 2000);
+        }, 500);
     </script>
     ";
 }
@@ -76,7 +76,7 @@ function swal_question(string $title, string $text, string $confirmUrl, string $
                     window.location.href = '$confirmUrl';
                 }
             });
-        }, 2000);
+        }, 500);
     </script>
     ";
 }
@@ -105,7 +105,7 @@ function swal_confirm(string $title, string $text, string $confirmUrl, string $c
                     window.location.href = '$confirmUrl';
                 }
             });
-        }, 2000);
+        }, 500);
     </script>
     ";
 }
@@ -125,7 +125,7 @@ function swal_info(string $title, string $text, string $button = 'OK', string $r
                 text: '$text',
                 confirmButtonText: '$button'
             })" . ($redirect ? ".then(() => { window.location.href = '$redirect'; })" : "") . ";
-        }, 2000);
+        }, 500);
     </script>
     ";
 }
