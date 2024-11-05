@@ -1,13 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
-	// scroll down button
-	const scrollDownButton = document.getElementById('scroll-down');
-	scrollDownButton.addEventListener('click', function () {
-		window.scrollTo(0, 550);
-	});
+/**
+ * scroll down button
+ */
+// const scrollDownButton = document.getElementById('scroll-down');
+// if (scrollDownButton) {
+// 	scrollDownButton.addEventListener('click', function () {
+// 		window.scrollTo({
+// 			top: 550,
+// 			behavior: 'smooth',
+// 		});
+// 	});
+// }
 
-	// subscribe form
-	const subscribeForms = document.querySelectorAll('#subscribeForm');
-
+/**
+ * subscribe form
+ */
+const subscribeForms = document.querySelectorAll('#subscribeForm');
+if (subscribeForms.length > 0) {
 	subscribeForms.forEach(subscribeForm =>
 		subscribeForm.addEventListener('submit', function (event) {
 			event.preventDefault();
@@ -18,13 +26,18 @@ document.addEventListener('DOMContentLoaded', function () {
 				method: 'POST',
 				body: formData,
 			})
-				.then(response => response.json())
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
 				.then(data => {
 					if (data.status === 'success') {
 						Swal.fire({
 							icon: 'success',
 							title: 'Success',
-							text: data.message,
+							text: data.message || 'Subscription successful!',
 							confirmButtonText: 'OK',
 						});
 						subscribeForm.reset();
@@ -32,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 						Swal.fire({
 							icon: 'error',
 							title: 'Error',
-							text: data.message,
+							text: data.message || 'Something went wrong',
 							confirmButtonText: 'OK',
 						});
 					}
@@ -48,4 +61,33 @@ document.addEventListener('DOMContentLoaded', function () {
 				});
 		})
 	);
-});
+}
+
+/**
+ * dashboard section
+ */
+// const dashboardSection = document.querySelectorAll('.dashboard-section');
+// const dashboardParent = document.getElementById('dashboard-parent');
+
+// if (dashboardParent && dashboardSection.length > 0) {
+// 	const sections = {
+// 		'dashboard-button': 'dashboard',
+// 		'profile-button': 'update-profile',
+// 		'content-button': 'update-content',
+// 	};
+
+// 	dashboardParent.addEventListener('click', function (event) {
+// 		const targetId = event.target.id;
+
+// 		if (sections[targetId]) {
+// 			dashboardSection.forEach(section =>
+// 				section.classList.add('hidden')
+// 			);
+
+// 			const targetSection = document.getElementById(sections[targetId]);
+// 			if (targetSection) {
+// 				targetSection.classList.remove('hidden');
+// 			}
+// 		}
+// 	});
+// }
