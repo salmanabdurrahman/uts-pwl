@@ -17,7 +17,7 @@
 <body>
     <?php
     require_once '../config/config.php';
-    require_once '../config/validation.php';
+    require_once '../functions/validation_functions.php';
 
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -52,7 +52,7 @@
 
             $image_url = "";
             if (isset($_FILES['image-url']) && $_FILES['image-url']['error'] == UPLOAD_ERR_OK) {
-                $target_dir = "../admin/uploads/";
+                $target_dir = "../assets/uploads/";
                 $image_name = basename($_FILES["image-url"]["name"]);
                 $target_file = $target_dir . $image_name;
                 $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));

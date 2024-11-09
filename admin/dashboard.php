@@ -73,7 +73,7 @@ $conn->close();
                                     Dashboard
                                 </a> -->
                                 <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                    href="../config/logout.php">
+                                    href="../actions/logout.php">
                                     <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -180,7 +180,7 @@ $conn->close();
                             Manage your name, password and account settings.
                         </p>
                     </div>
-                    <form action="../config/update_profile_action.php" method="POST">
+                    <form action="../actions/update_profile_action.php" method="POST">
                         <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
                             <div class="sm:col-span-3">
                                 <label for="username" class="inline-block text-sm text-gray-800 mt-2.5">
@@ -285,7 +285,7 @@ $conn->close();
                             Add or update your content, such as news, articles, or blog posts.
                         </p>
                     </div>
-                    <form action="../config/add_content_action.php" method="POST" enctype="multipart/form-data">
+                    <form action="../actions/add_content_action.php" method="POST" enctype="multipart/form-data">
                         <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
                             <div class="sm:col-span-3">
                                 <label for="title" class="inline-block text-sm text-gray-800 mt-2.5">

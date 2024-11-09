@@ -118,7 +118,7 @@ if ($isLoggedIn) {
                                                 Dashboard
                                             </a>
                                             <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                                href="../config/logout.php">
+                                                href="../actions/logout.php">
                                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -154,7 +154,7 @@ if ($isLoggedIn) {
                 </div>
                 <div class="mt-5">
                     <div class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">Or</div>
-                    <form action="../config/register_action.php" method="POST">
+                    <form action="../actions/register_action.php" method="POST">
                         <div class="grid gap-y-4">
                             <div>
                                 <label for="username" class="block text-sm mb-2">Username</label>
