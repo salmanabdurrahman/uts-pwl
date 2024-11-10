@@ -6,43 +6,67 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: ../pages/login.php');
     exit();
 }
+$user_id = $_SESSION['user_id'];
 
-$userEmailQuery = "SELECT email FROM users WHERE user_id = ?";
-$stmt = $conn->prepare($userEmailQuery);
-$stmt->bind_param("i", $_SESSION['user_id']);
-$stmt->execute();
-$userEmailResult = $stmt->get_result();
+try {
+    // user
+    $userQuery = "SELECT user_id, username, full_name, email, gender 
+                  FROM users 
+                  WHERE user_id = ?";
+    $stmt = $conn->prepare($userQuery);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows === 0) {
+        session_destroy();
+        header('Location: ../pages/login.php');
+        exit();
+    }
+    $user = $result->fetch_assoc();
+    $loggedInUserEmail = $user['email'];
+    $stmt->close();
 
-$loggedInUserEmail = null;
-if ($userEmailRow = $userEmailResult->fetch_assoc()) {
-    $loggedInUserEmail = $userEmailRow['email'];
-}
-$stmt->close();
+    // users
+    $usersQuery = "SELECT user_id, username, full_name, email, gender, created_at 
+                   FROM users 
+                   WHERE user_id = ? 
+                   ORDER BY created_at DESC";
+    $stmt = $conn->prepare($usersQuery);
+    $stmt->bind_param("i", $user_id);  // Bind the current user's ID
+    $stmt->execute();
+    $usersResult = $stmt->get_result();
 
-// users
-$usersQuery = "SELECT * FROM users";
-$usersResult = $conn->query($usersQuery);
-
-$users = [];
-if ($usersResult->num_rows > 0) {
+    $users = [];
     while ($row = $usersResult->fetch_assoc()) {
         $users[] = $row;
     }
-}
-// articles
-$articlesQuery = "SELECT a.*, u.full_name as creator_name 
-                  FROM articles a 
-                  LEFT JOIN users u ON a.created_by = u.user_id";
-$articlesResult = $conn->query($articlesQuery);
+    $stmt->close();
 
-$articles = [];
-if ($articlesResult->num_rows > 0) {
+    // articles
+    $articlesQuery = "SELECT a.*, u.full_name as creator_name 
+                      FROM articles a 
+                      LEFT JOIN users u ON a.created_by = u.user_id 
+                      WHERE a.created_by = ?
+                      ORDER BY a.created_at DESC";
+    $stmt = $conn->prepare($articlesQuery);
+    $stmt->bind_param("i", $user_id);  // Bind the current user's ID
+    $stmt->execute();
+    $articlesResult = $stmt->get_result();
+
+    $articles = [];
     while ($row = $articlesResult->fetch_assoc()) {
         $articles[] = $row;
     }
+    $stmt->close();
+} catch (Exception $e) {
+    // Log error and show user-friendly message
+    error_log("Database error: " . $e->getMessage());
+    $_SESSION['error'] = "An error occurred while loading the page. Please try again.";
+    header('Location: ../pages/error.php');
+    exit();
+} finally {
+    $conn->close();
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -88,16 +112,6 @@ $conn->close();
                                 <p class="text-sm font-medium text-gray-800"><?php echo htmlspecialchars($loggedInUserEmail); ?></p>
                             </div>
                             <div class="p-1.5 space-y-0.5">
-                                <!-- <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                    href="../admin/dashboard.php">
-                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
-                                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                                    </svg>
-                                    Dashboard
-                                </a> -->
                                 <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
                                     href="../actions/logout.php">
                                     <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -203,7 +217,7 @@ $conn->close();
                             Dashboard
                         </h2>
                         <p class="text-sm text-gray-600">
-                            Manage all users in the system.
+                            Manage user accounts and content in the system.
                         </p>
                     </div>
                     <!-- users -->
@@ -215,10 +229,10 @@ $conn->close();
                                         <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
                                             <div>
                                                 <h2 class="text-xl font-semibold text-gray-800">
-                                                    Users
+                                                    User
                                                 </h2>
                                                 <p class="text-sm text-gray-600">
-                                                    View and manage user accounts.
+                                                    View and manage user account.
                                                 </p>
                                             </div>
                                         </div>
@@ -451,7 +465,7 @@ $conn->close();
                             Profile
                         </h2>
                         <p class="text-sm text-gray-600">
-                            Manage your name, password and account settings.
+                            Manage your name, password, and account settings.
                         </p>
                     </div>
                     <form action="../actions/update_profile_action.php" method="POST">
@@ -462,12 +476,9 @@ $conn->close();
                                 </label>
                             </div>
                             <div class="sm:col-span-9">
-                                <div class="sm:flex">
-                                    <input id="username" type="text"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none bg-gray-100 cursor-not-allowed focus:border-0 focus:ring-none focus:shadow-none focus:outline-none"
-                                        name="username" placeholder="salmanabd"
-                                        value="<?= htmlspecialchars($user['username']) ?>" readonly>
-                                </div>
+                                <input id="username" type="text"
+                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none bg-gray-100 cursor-not-allowed focus:border-0 focus:ring-none focus:shadow-none focus:outline-none"
+                                    name="username" value="<?= htmlspecialchars($user['username']) ?>" readonly>
                             </div>
                             <div class="sm:col-span-3">
                                 <label for="fullname" class="inline-block text-sm text-gray-800 mt-2.5">
@@ -475,14 +486,11 @@ $conn->close();
                                 </label>
                             </div>
                             <div class="sm:col-span-9">
-                                <div class="sm:flex">
-                                    <input id="fullname" type="text"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                        name="fullname" placeholder="Salman Abdurrahman"
-                                        value="<?= htmlspecialchars($user['full_name']) ?>">
-                                </div>
+                                <input id="fullname" type="text"
+                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                    name="fullname" value="<?= htmlspecialchars($user['full_name']) ?>">
                             </div>
-                            <div class=" sm:col-span-3">
+                            <div class="sm:col-span-3">
                                 <label for="email" class="inline-block text-sm text-gray-800 mt-2.5">
                                     Email
                                 </label>
@@ -490,8 +498,7 @@ $conn->close();
                             <div class="sm:col-span-9">
                                 <input id="email" type="email"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="email" placeholder="salman@gmail.com"
-                                    value="<?= htmlspecialchars($user['email']) ?>">
+                                    name="email" value="<?= htmlspecialchars($user['email']) ?>">
                             </div>
                             <div class="sm:col-span-3">
                                 <label for="password" class="inline-block text-sm text-gray-800 mt-2.5">
@@ -510,26 +517,25 @@ $conn->close();
                                 </div>
                             </div>
                             <div class="sm:col-span-3">
-                                <label for="af-account-gender-checkbox"
-                                    class="inline-block text-sm text-gray-800 mt-2.5">
+                                <label for="gender" class="inline-block text-sm text-gray-800 mt-2.5">
                                     Gender
                                 </label>
                             </div>
                             <div class="sm:col-span-9">
                                 <div class="sm:flex">
                                     <label for="male"
-                                        class="flex py-2 px-3 w-full border border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                        class="flex py-2 px-3 w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                                         <input type="radio" name="gender"
                                             class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            id="male" value="male" checked>
-                                        <span class="text-sm text-gray-500 ms-3" <?= $user['gender'] == 'male' ? 'checked' : '' ?>>Male</span>
+                                            id="male" value="male" <?= $user['gender'] == 'male' ? 'checked' : '' ?>>
+                                        <span class="text-sm text-gray-500 ms-3">Male</span>
                                     </label>
                                     <label for="female"
-                                        class="flex py-2 px-3 w-full border border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                        class="flex py-2 px-3 w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                                         <input type="radio" name="gender"
                                             class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            id="female" value="female">
-                                        <span class="text-sm text-gray-500 ms-3" <?= $user['gender'] == 'female' ? 'checked' : '' ?>>Female</span>
+                                            id="female" value="female" <?= $user['gender'] == 'female' ? 'checked' : '' ?>>
+                                        <span class="text-sm text-gray-500 ms-3">Female</span>
                                     </label>
                                 </div>
                             </div>
@@ -556,7 +562,7 @@ $conn->close();
                             Content
                         </h2>
                         <p class="text-sm text-gray-600">
-                            Add or update your content, such as news, articles, or blog posts.
+                            Add your content, such as news, articles, or blog posts.
                         </p>
                     </div>
                     <form action="../actions/add_content_action.php" method="POST" enctype="multipart/form-data">
