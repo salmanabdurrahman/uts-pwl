@@ -32,7 +32,7 @@ try {
                    WHERE user_id = ? 
                    ORDER BY created_at DESC";
     $stmt = $conn->prepare($usersQuery);
-    $stmt->bind_param("i", $user_id);  // Bind the current user's ID
+    $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $usersResult = $stmt->get_result();
 
@@ -49,7 +49,7 @@ try {
                       WHERE a.created_by = ?
                       ORDER BY a.created_at DESC";
     $stmt = $conn->prepare($articlesQuery);
-    $stmt->bind_param("i", $user_id);  // Bind the current user's ID
+    $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $articlesResult = $stmt->get_result();
 
@@ -59,7 +59,6 @@ try {
     }
     $stmt->close();
 } catch (Exception $e) {
-    // Log error and show user-friendly message
     error_log("Database error: " . $e->getMessage());
     $_SESSION['error'] = "An error occurred while loading the page. Please try again.";
     header('Location: ../pages/error.php');
@@ -217,7 +216,7 @@ try {
                             Dashboard
                         </h2>
                         <p class="text-sm text-gray-600">
-                            Manage user accounts and content in the system.
+                            Manage user account and content in the system.
                         </p>
                     </div>
                     <!-- users -->
@@ -303,12 +302,7 @@ try {
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex gap-4">
-                                                                <a href="edit.php?id=<?php echo $user['user_id']; ?>"
-                                                                    class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
-                                                                    Edit
-                                                                </a>
-                                                                <a href="delete.php?id=<?php echo $user['user_id']; ?>"
-                                                                    onclick="return confirm('Are you sure you want to delete this user?')"
+                                                                <a href="../actions/delete_profile_action.php?id=<?php echo $user['user_id']; ?>"
                                                                     class="inline-flex items-center gap-x-1 text-sm text-red-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
                                                                     Delete
                                                                 </a>
@@ -431,8 +425,7 @@ try {
                                                                     class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
                                                                     Edit
                                                                 </a>
-                                                                <a href="delete.php?id=<?php echo $article['article_id']; ?>"
-                                                                    onclick="return confirm('Are you sure you want to delete this article?')"
+                                                                <a href="../actions/delete_article_action.php?id=<?php echo $article['article_id']; ?>"
                                                                     class="inline-flex items-center gap-x-1 text-sm text-red-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
                                                                     Delete
                                                                 </a>
