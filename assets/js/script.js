@@ -14,54 +14,54 @@
 /**
  * subscribe form
  */
-const subscribeForms = document.querySelectorAll('#subscribeForm');
-if (subscribeForms.length > 0) {
-	subscribeForms.forEach(subscribeForm =>
-		subscribeForm.addEventListener('submit', function (event) {
-			event.preventDefault();
+// const subscribeForms = document.querySelectorAll('#subscribeForm');
+// if (subscribeForms.length > 0) {
+// 	subscribeForms.forEach(subscribeForm =>
+// 		subscribeForm.addEventListener('submit', function (event) {
+// 			event.preventDefault();
 
-			const formData = new FormData(subscribeForm);
+// 			const formData = new FormData(subscribeForm);
 
-			fetch('../actions/subscribe_action.php', {
-				method: 'POST',
-				body: formData,
-			})
-				.then(response => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then(data => {
-					if (data.status === 'success') {
-						Swal.fire({
-							icon: 'success',
-							title: 'Success',
-							text: data.message || 'Subscription successful!',
-							confirmButtonText: 'OK',
-						});
-						subscribeForm.reset();
-					} else {
-						Swal.fire({
-							icon: 'error',
-							title: 'Error',
-							text: data.message || 'Something went wrong',
-							confirmButtonText: 'OK',
-						});
-					}
-				})
-				.catch(error => {
-					console.error('Error:', error);
-					Swal.fire({
-						icon: 'error',
-						title: 'Error',
-						text: 'An unexpected error occurred. Please try again later.',
-						confirmButtonText: 'OK',
-					});
-				});
-		})
-	);
-}
+// 			fetch('../actions/subscribe_action.php', {
+// 				method: 'POST',
+// 				body: formData,
+// 			})
+// 				.then(response => {
+// 					if (!response.ok) {
+// 						throw new Error('Network response was not ok');
+// 					}
+// 					return response.json();
+// 				})
+// 				.then(data => {
+// 					if (data.status === 'success') {
+// 						Swal.fire({
+// 							icon: 'success',
+// 							title: 'Success',
+// 							text: data.message || 'Subscription successful!',
+// 							confirmButtonText: 'OK',
+// 						});
+// 						subscribeForm.reset();
+// 					} else {
+// 						Swal.fire({
+// 							icon: 'error',
+// 							title: 'Error',
+// 							text: data.message || 'Something went wrong',
+// 							confirmButtonText: 'OK',
+// 						});
+// 					}
+// 				})
+// 				.catch(error => {
+// 					console.error('Error:', error);
+// 					Swal.fire({
+// 						icon: 'error',
+// 						title: 'Error',
+// 						text: 'An unexpected error occurred. Please try again later.',
+// 						confirmButtonText: 'OK',
+// 					});
+// 				});
+// 		})
+// 	);
+// }
 
 /**
  * dashboard section
