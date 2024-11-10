@@ -7,15 +7,41 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
-$query = "SELECT * FROM users WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
+$userEmailQuery = "SELECT email FROM users WHERE user_id = ?";
+$stmt = $conn->prepare($userEmailQuery);
+$stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$userEmailResult = $stmt->get_result();
 
+$loggedInUserEmail = null;
+if ($userEmailRow = $userEmailResult->fetch_assoc()) {
+    $loggedInUserEmail = $userEmailRow['email'];
+}
 $stmt->close();
+
+// users
+$usersQuery = "SELECT * FROM users";
+$usersResult = $conn->query($usersQuery);
+
+$users = [];
+if ($usersResult->num_rows > 0) {
+    while ($row = $usersResult->fetch_assoc()) {
+        $users[] = $row;
+    }
+}
+// articles
+$articlesQuery = "SELECT a.*, u.full_name as creator_name 
+                  FROM articles a 
+                  LEFT JOIN users u ON a.created_by = u.user_id";
+$articlesResult = $conn->query($articlesQuery);
+
+$articles = [];
+if ($articlesResult->num_rows > 0) {
+    while ($row = $articlesResult->fetch_assoc()) {
+        $articles[] = $row;
+    }
+}
+
 $conn->close();
 ?>
 
@@ -59,7 +85,7 @@ $conn->close();
                             role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-account">
                             <div class="py-3 px-5 bg-gray-100 rounded-t-lg">
                                 <p class="text-sm text-gray-500">Signed in as</p>
-                                <p class="text-sm font-medium text-gray-800"><?= htmlspecialchars($user['email']) ?></p>
+                                <p class="text-sm font-medium text-gray-800"><?php echo htmlspecialchars($loggedInUserEmail); ?></p>
                             </div>
                             <div class="p-1.5 space-y-0.5">
                                 <!-- <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
@@ -169,8 +195,256 @@ $conn->close();
     </section>
     <section class="w-full lg:ps-64">
         <div class="p-4 sm:p-6 ">
+            <!-- dashboard -->
+            <div class="dashboard-section w-full max-w-[1100px] px-4 py-10 sm:px-8 lg:px-10 mx-auto" id="dashboard">
+                <div class="bg-white rounded-xl shadow p-4 sm:p-7 w-full">
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-gray-800">
+                            Dashboard
+                        </h2>
+                        <p class="text-sm text-gray-600">
+                            Manage all users in the system.
+                        </p>
+                    </div>
+                    <!-- users -->
+                    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                        <div class="flex flex-col">
+                            <div class="-m-1.5 overflow-x-auto">
+                                <div class="p-1.5 min-w-full inline-block align-middle">
+                                    <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                                        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+                                            <div>
+                                                <h2 class="text-xl font-semibold text-gray-800">
+                                                    Users
+                                                </h2>
+                                                <p class="text-sm text-gray-600">
+                                                    View and manage user accounts.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-50">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            ID
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Username
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Full Name
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Email
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Gender
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Created
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Action
+                                                        </span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-200">
+                                                <?php foreach ($users as $user): ?>
+                                                    <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-800"><?php echo htmlspecialchars($user['user_id']); ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-800"><?php echo htmlspecialchars($user['username']); ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-800"><?php echo htmlspecialchars($user['full_name']); ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-800"><?php echo htmlspecialchars($user['email']); ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium <?php echo $user['gender'] === 'Male' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'; ?>">
+                                                                <?php echo htmlspecialchars($user['gender']); ?>
+                                                            </span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-500">
+                                                                <?php echo date('d M Y, H:i', strtotime($user['created_at'])); ?>
+                                                            </span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex gap-4">
+                                                                <a href="edit.php?id=<?php echo $user['user_id']; ?>"
+                                                                    class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
+                                                                    Edit
+                                                                </a>
+                                                                <a href="delete.php?id=<?php echo $user['user_id']; ?>"
+                                                                    onclick="return confirm('Are you sure you want to delete this user?')"
+                                                                    class="inline-flex items-center gap-x-1 text-sm text-red-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
+                                                                    Delete
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+                                            <div>
+                                                <p class="text-sm text-gray-600">
+                                                    <span class="font-semibold text-gray-800"><?php echo count($users); ?></span> results
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- articles -->
+                    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                        <div class="flex flex-col">
+                            <div class="-m-1.5 overflow-x-auto">
+                                <div class="p-1.5 min-w-full inline-block align-middle">
+                                    <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                                        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+                                            <div>
+                                                <h2 class="text-xl font-semibold text-gray-800">
+                                                    Articles
+                                                </h2>
+                                                <p class="text-sm text-gray-600">
+                                                    View and manage article content.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-50">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            ID
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Title
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Content
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Short Description
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Image
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Created
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Created By
+                                                        </span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-start">
+                                                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                                            Action
+                                                        </span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-200">
+                                                <?php foreach ($articles as $article): ?>
+                                                    <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-800"><?php echo htmlspecialchars($article['article_id']); ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-800"><?php echo htmlspecialchars($article['title']); ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <span class="text-sm text-gray-800"><?php echo substr(htmlspecialchars($article['content']), 0, 100) . '...'; ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <span class="text-sm text-gray-800"><?php echo substr(htmlspecialchars($article['short_description']), 0, 100) . '...'; ?></span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <?php if ($article['image_url']): ?>
+                                                                <img src="<?php echo htmlspecialchars($article['image_url']); ?>"
+                                                                    alt="Article image"
+                                                                    class="h-10 w-10 rounded object-cover">
+                                                            <?php else: ?>
+                                                                <span class="text-sm text-gray-500">No image</span>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-500">
+                                                                <?php echo date('d M Y, H:i', strtotime($article['created_at'])); ?>
+                                                            </span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="text-sm text-gray-800">
+                                                                <?php echo htmlspecialchars($article['creator_name']); ?>
+                                                            </span>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex gap-4">
+                                                                <a href="edit.php?id=<?php echo $article['article_id']; ?>"
+                                                                    class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
+                                                                    Edit
+                                                                </a>
+                                                                <a href="delete.php?id=<?php echo $article['article_id']; ?>"
+                                                                    onclick="return confirm('Are you sure you want to delete this article?')"
+                                                                    class="inline-flex items-center gap-x-1 text-sm text-red-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
+                                                                    Delete
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+                                            <div>
+                                                <p class="text-sm text-gray-600">
+                                                    <span class="font-semibold text-gray-800"><?php echo count($articles); ?></span> results
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- dashboard -->
             <!-- update profile -->
-            <div class="dashboard-section max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto" id="update-profile">
+            <div class="dashboard-section max-w-[1100px] px-4 py-10 sm:px-6 lg:px-8 mx-auto" id="update-profile">
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7">
                     <div class="mb-8">
                         <h2 class="text-xl font-bold text-gray-800">
@@ -275,7 +549,7 @@ $conn->close();
             </div>
             <!-- update profile -->
             <!-- add content -->
-            <div class="dashboard-section max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto" id="update-content">
+            <div class="dashboard-section max-w-[1100px] px-4 py-10 sm:px-6 lg:px-8 mx-auto" id="update-content">
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7">
                     <div class="mb-8">
                         <h2 class="text-xl font-bold text-gray-800">
@@ -366,8 +640,12 @@ $conn->close();
                 'content-button': 'update-content',
             };
 
-            dashboardSection.forEach(section => {
+            dashboardSection.forEach((section, index) => {
                 section.classList.add('hidden');
+
+                if (index === 0) {
+                    section.classList.remove('hidden');
+                }
             });
 
             dashboardParent.addEventListener('click', function(event) {
