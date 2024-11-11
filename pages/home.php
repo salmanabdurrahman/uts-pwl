@@ -13,13 +13,14 @@ if ($isLoggedIn) {
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
     $stmt->close();
-    $conn->close();
 }
 
-// $query = "SELECT * FROM articles ORDER BY created_at DESC LIMIT 6";
-// $stmt = $conn->prepare($query);
-// $stmt->execute();
-// $result = $stmt->get_result();
+$getArticles = "SELECT a.title, a.short_description, a.image_url, a.created_by, u.username 
+        FROM articles a 
+        JOIN users u ON a.created_by = u.user_id 
+        ORDER BY RAND()";
+
+$articlesResult = $conn->query($getArticles);
 ?>
 
 <!DOCTYPE html>
@@ -183,121 +184,46 @@ if ($isLoggedIn) {
             <h2 class="text-2xl font-bold md:text-4xl md:leading-tight">Stay Informed</h2>
             <p class="mt-1 text-gray-600">Get the latest news, updates, and insights from SimpleNews, your trusted news source.</p>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5" href="#">
-                <div class="aspect-w-16 aspect-h-11">
-                    <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1633114128174-2f8aa49759b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-                </div>
-                <div class="my-6">
-                    <h3 class="text-xl font-semibold text-gray-800">
-                        Announcing a free plan for small teams
-                    </h3>
-                    <p class="mt-5 text-gray-600">
-                        At Wake, our mission has always been focused on bringing openness.
-                    </p>
-                </div>
-                <div class="mt-auto flex items-center gap-x-3">
-                    <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
-                    <div>
-                        <h5 class="text-sm text-gray-800">By Lauren Waller</h5>
-                    </div>
-                </div>
-            </a>
-            <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5" href="#">
-                <div class="aspect-w-16 aspect-h-11">
-                    <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1562851529-c370841f6536?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-                </div>
-                <div class="my-6">
-                    <h3 class="text-xl font-semibold text-gray-800">
-                        How Google Assistant now helps you record stories for kids
-                    </h3>
-                    <p class="mt-5 text-gray-600">
-                        Google is constantly updating its consumer AI, Google Assistant, with new features.
-                    </p>
-                </div>
-                <div class="mt-auto flex items-center gap-x-3">
-                    <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
-                    <div>
-                        <h5 class="text-sm text-gray-800">By Aaron Larsson</h5>
-                    </div>
-                </div>
-            </a>
-            <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5" href="#">
-                <div class="aspect-w-16 aspect-h-11">
-                    <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1562851529-c370841f6536?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-                </div>
-                <div class="my-6">
-                    <h3 class="text-xl font-semibold text-gray-800">
-                        How Google Assistant now helps you record stories for kids
-                    </h3>
-                    <p class="mt-5 text-gray-600">
-                        Google is constantly updating its consumer AI, Google Assistant, with new features.
-                    </p>
-                </div>
-                <div class="mt-auto flex items-center gap-x-3">
-                    <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
-                    <div>
-                        <h5 class="text-sm text-gray-800">By Aaron Larsson</h5>
-                    </div>
-                </div>
-            </a>
-            <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5" href="#">
-                <div class="aspect-w-16 aspect-h-11">
-                    <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1562851529-c370841f6536?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-                </div>
-                <div class="my-6">
-                    <h3 class="text-xl font-semibold text-gray-800">
-                        How Google Assistant now helps you record stories for kids
-                    </h3>
-                    <p class="mt-5 text-gray-600">
-                        Google is constantly updating its consumer AI, Google Assistant, with new features.
-                    </p>
-                </div>
-                <div class="mt-auto flex items-center gap-x-3">
-                    <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
-                    <div>
-                        <h5 class="text-sm text-gray-800">By Aaron Larsson</h5>
-                    </div>
-                </div>
-            </a>
-            <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5" href="#">
-                <div class="aspect-w-16 aspect-h-11">
-                    <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1562851529-c370841f6536?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-                </div>
-                <div class="my-6">
-                    <h3 class="text-xl font-semibold text-gray-800">
-                        How Google Assistant now helps you record stories for kids
-                    </h3>
-                    <p class="mt-5 text-gray-600">
-                        Google is constantly updating its consumer AI, Google Assistant, with new features.
-                    </p>
-                </div>
-                <div class="mt-auto flex items-center gap-x-3">
-                    <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
-                    <div>
-                        <h5 class="text-sm text-gray-800">By Aaron Larsson</h5>
-                    </div>
-                </div>
-            </a>
-            <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5" href="#">
-                <div class="aspect-w-16 aspect-h-11">
-                    <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1521321205814-9d673c65c167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-                </div>
-                <div class="my-6">
-                    <h3 class="text-xl font-semibold text-gray-800">
-                        Front accounts - let's work together
-                    </h3>
-                    <p class="mt-5 text-gray-600">
-                        Are you an accountant? Are you a company formation advisor?
-                    </p>
-                </div>
-                <div class="mt-auto flex items-center gap-x-3">
-                    <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
-                    <div>
-                        <h5 class="text-sm text-gray-800">By Lauren Waller</h5>
-                    </div>
-                </div>
-            </a>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch justify-center">
+            <?php
+            if ($articlesResult->num_rows > 0) {
+                $count = 0;
+                while ($row = $articlesResult->fetch_assoc()) {
+                    if ($count >= 6) break;
+
+                    $title = $row['title'];
+                    $short_description = $row['short_description'];
+                    $image_url = $row['image_url'];
+                    $created_by = $row['username'];
+            ?>
+                    <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5" href="#">
+                        <div class="aspect-w-16 aspect-h-11">
+                            <img class="w-full object-cover rounded-xl" src="<?php echo $image_url; ?>" alt="Blog Image">
+                        </div>
+                        <div class="my-6">
+                            <h3 class="text-xl font-semibold text-gray-800">
+                                <?php echo $title; ?>
+                            </h3>
+                            <p class="mt-5 text-gray-600">
+                                <?php echo $short_description; ?>
+                            </p>
+                        </div>
+                        <div class="mt-auto flex items-center gap-x-3">
+                            <img class="size-8 rounded-full" src="../assets/images/user.png" alt="Avatar">
+                            <div>
+                                <h5 class="text-sm text-gray-800"><?php echo $created_by; ?></h5>
+                            </div>
+                        </div>
+                    </a>
+            <?php
+                    $count++;
+                }
+            } else {
+                echo "No articles found.";
+            }
+
+            $conn->close();
+            ?>
         </div>
         <div class="mt-12 text-center">
             <a class="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" href="../pages/blog.php">

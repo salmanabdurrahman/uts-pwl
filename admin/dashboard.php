@@ -26,13 +26,11 @@ try {
     $loggedInUserEmail = $user['email'];
     $stmt->close();
 
-    // users
+    // all users
     $usersQuery = "SELECT user_id, username, full_name, email, gender, created_at 
                    FROM users 
-                   WHERE user_id = ? 
                    ORDER BY created_at DESC";
     $stmt = $conn->prepare($usersQuery);
-    $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $usersResult = $stmt->get_result();
 
@@ -42,14 +40,12 @@ try {
     }
     $stmt->close();
 
-    // articles
+    // all articles
     $articlesQuery = "SELECT a.*, u.full_name as creator_name 
                       FROM articles a 
                       LEFT JOIN users u ON a.created_by = u.user_id 
-                      WHERE a.created_by = ?
                       ORDER BY a.created_at DESC";
     $stmt = $conn->prepare($articlesQuery);
-    $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $articlesResult = $stmt->get_result();
 
@@ -185,7 +181,7 @@ try {
                                     <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                                 </svg>
-                                Profile
+                                Update Profile
                             </button>
                         </li>
                         <li class="hs-accordion" id="users-accordion">
@@ -198,7 +194,7 @@ try {
                                     <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
                                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
                                 </svg>
-                                Content
+                                Add Content
                             </button>
                         </li>
                     </ul>
@@ -291,8 +287,8 @@ try {
                                                             <span class="text-sm text-gray-800"><?php echo htmlspecialchars($user['email']); ?></span>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <span class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium <?php echo $user['gender'] === 'Male' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'; ?>">
-                                                                <?php echo htmlspecialchars($user['gender']); ?>
+                                                            <span class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium <?php echo empty($user['gender']) ? '' : ($user['gender'] === 'male' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'); ?>">
+                                                                <?php echo empty($user['gender']) ? '' : htmlspecialchars($user['gender']); ?>
                                                             </span>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -455,7 +451,7 @@ try {
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7">
                     <div class="mb-8">
                         <h2 class="text-xl font-bold text-gray-800">
-                            Profile
+                            Update Profile
                         </h2>
                         <p class="text-sm text-gray-600">
                             Manage your name, password, and account settings.
@@ -470,7 +466,7 @@ try {
                             </div>
                             <div class="sm:col-span-9">
                                 <input id="username" type="text"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none bg-gray-100 cursor-not-allowed focus:border-0 focus:ring-none focus:shadow-none focus:outline-none"
+                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none bg-gray-100 cursor-not-allowed focus:ring-0 hover:ring-0 hover:outline-none focus:ring-none focus:shadow-none focus:outline-none focus:bg-gray-200 hover:bg-gray-200 disabled:bg-gray-200"
                                     name="username" value="<?= htmlspecialchars($user['username']) ?>" readonly>
                             </div>
                             <div class="sm:col-span-3">
@@ -552,7 +548,7 @@ try {
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7">
                     <div class="mb-8">
                         <h2 class="text-xl font-bold text-gray-800">
-                            Content
+                            Add Content
                         </h2>
                         <p class="text-sm text-gray-600">
                             Add your content, such as news, articles, or blog posts.
