@@ -6,6 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: ../pages/login.php');
     exit();
 }
+
 $user_id = $_SESSION['user_id'];
 
 try {
@@ -24,6 +25,7 @@ try {
     }
     $user = $result->fetch_assoc();
     $loggedInUserEmail = $user['email'];
+    $current_user = $user;
     $stmt->close();
 
     // all users
@@ -216,7 +218,7 @@ try {
                         </p>
                     </div>
                     <!-- users -->
-                    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                    <div class="max-w-[1100px] w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                         <div class="flex flex-col">
                             <div class="-m-1.5 overflow-x-auto">
                                 <div class="p-1.5 min-w-full inline-block align-middle">
@@ -321,7 +323,7 @@ try {
                         </div>
                     </div>
                     <!-- articles -->
-                    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                    <div class="max-w-[1100px] w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                         <div class="flex flex-col">
                             <div class="-m-1.5 overflow-x-auto">
                                 <div class="p-1.5 min-w-full inline-block align-middle">
@@ -467,7 +469,7 @@ try {
                             <div class="sm:col-span-9">
                                 <input id="username" type="text"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none bg-gray-100 cursor-not-allowed focus:ring-0 hover:ring-0 hover:outline-none focus:ring-none focus:shadow-none focus:outline-none focus:bg-gray-200 hover:bg-gray-200 disabled:bg-gray-200"
-                                    name="username" value="<?= htmlspecialchars($user['username']) ?>" readonly>
+                                    name="username" value="<?= htmlspecialchars($current_user['username']) ?>" readonly>
                             </div>
                             <div class="sm:col-span-3">
                                 <label for="fullname" class="inline-block text-sm text-gray-800 mt-2.5">
@@ -477,7 +479,7 @@ try {
                             <div class="sm:col-span-9">
                                 <input id="fullname" type="text"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="fullname" value="<?= htmlspecialchars($user['full_name']) ?>">
+                                    name="fullname" value="<?= htmlspecialchars($current_user['full_name']) ?>">
                             </div>
                             <div class="sm:col-span-3">
                                 <label for="email" class="inline-block text-sm text-gray-800 mt-2.5">
@@ -487,7 +489,7 @@ try {
                             <div class="sm:col-span-9">
                                 <input id="email" type="email"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="email" value="<?= htmlspecialchars($user['email']) ?>">
+                                    name="email" value="<?= htmlspecialchars($current_user['email']) ?>">
                             </div>
                             <div class="sm:col-span-3">
                                 <label for="password" class="inline-block text-sm text-gray-800 mt-2.5">
@@ -516,14 +518,14 @@ try {
                                         class="flex py-2 px-3 w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                                         <input type="radio" name="gender"
                                             class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            id="male" value="male" <?= $user['gender'] == 'male' ? 'checked' : '' ?>>
+                                            id="male" value="male" <?= $current_user['gender'] == 'male' ? 'checked' : '' ?>>
                                         <span class="text-sm text-gray-500 ms-3">Male</span>
                                     </label>
                                     <label for="female"
                                         class="flex py-2 px-3 w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                                         <input type="radio" name="gender"
                                             class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            id="female" value="female" <?= $user['gender'] == 'female' ? 'checked' : '' ?>>
+                                            id="female" value="female" <?= $current_user['gender'] == 'female' ? 'checked' : '' ?>>
                                         <span class="text-sm text-gray-500 ms-3">Female</span>
                                     </label>
                                 </div>
