@@ -163,7 +163,7 @@ $articlesResult = $conn->query($getArticles);
                         </h1>
                     </div>
                     <div class="mt-5 max-w-3xl">
-                        <p class="text-lg text-gray-600">Get the latest news and updates from SimpleNews, your trusted news source. Stay informed with our comprehensive coverage of politics, business, technology, and more.</p>
+                        <p class="md:text-lg text-base text-gray-600">Get the latest news and updates from SimpleNews, your trusted news source. Stay informed with our comprehensive coverage of politics, business, technology, and more.</p>
                     </div>
                     <div class="mt-8 gap-3 flex justify-center">
                         <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none scroll-down" id="scroll-down">
