@@ -54,7 +54,7 @@
             if ($stmt->execute()) {
                 swal_success(
                     'Success',
-                    'Article successfully deleted.',
+                    'Content successfully deleted.',
                     'OK',
                     '../admin/dashboard.php'
                 );
