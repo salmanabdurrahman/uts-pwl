@@ -171,7 +171,7 @@ try {
                         <li class="hs-accordion" id="users-accordion">
                             <button type="button"
                                 class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                aria-expanded="true" aria-controls="users-accordion-child" id="dashboard-button">
+                                aria-expanded="true" aria-controls="users-accordion-child" id="dashboard-button" onclick="location.href='../admin/dashboard.php'">
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -184,7 +184,7 @@ try {
                         <li class="hs-accordion" id="users-accordion">
                             <button type="button"
                                 class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                aria-expanded="true" aria-controls="users-accordion-child" id="profile-button">
+                                aria-expanded="true" aria-controls="users-accordion-child" id="profile-button" onclick="location.href='../admin/update_profile.php'">
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -196,18 +196,36 @@ try {
                                 Update Profile
                             </button>
                         </li>
-                        <li class="hs-accordion" id="users-accordion">
-                            <button type="button"
-                                class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                aria-expanded="true" aria-controls="users-accordion-child" id="content-button">
+                        <li class="hs-accordion" id="account-accordion">
+                            <button type="button" class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200" aria-expanded="true" aria-controls="account-accordion-child">
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
                                     <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
                                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
                                 </svg>
-                                Add Content
+                                Content
+                                <svg class="hs-accordion-active:block ms-auto hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m18 15-6-6-6 6" />
+                                </svg>
+                                <svg class="hs-accordion-active:hidden ms-auto block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
                             </button>
+                            <div id="account-accordion-child" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region" aria-labelledby="account-accordion">
+                                <ul class="ps-8 pt-1 space-y-1">
+                                    <li>
+                                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-200" href="../admin/add_content.php" id="add-content-button">
+                                            Add Content
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-200" href="../admin/update_content.php" id="update-content-button">
+                                            Update Content
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </nav>
@@ -429,7 +447,7 @@ try {
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex gap-4">
-                                                                <a href="edit.php?id=<?php echo $article['article_id']; ?>"
+                                                                <a href="../admin/update_content.php?id=<?php echo $article['article_id']; ?>"
                                                                     class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
                                                                     Edit
                                                                 </a>
@@ -458,174 +476,6 @@ try {
                 </div>
             </div>
             <!-- dashboard -->
-            <!-- update profile -->
-            <div class="dashboard-section max-w-[1100px] px-4 py-10 sm:px-6 lg:px-8 mx-auto" id="update-profile">
-                <div class="bg-white rounded-xl shadow p-4 sm:p-7">
-                    <div class="mb-8">
-                        <h2 class="text-xl font-bold text-gray-800">
-                            Update Profile
-                        </h2>
-                        <p class="text-sm text-gray-600">
-                            Manage your name, password, and account settings.
-                        </p>
-                    </div>
-                    <form action="../actions/update_profile_action.php" method="POST">
-                        <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
-                            <div class="sm:col-span-3">
-                                <label for="username" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Username
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <input id="username" type="text"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none bg-gray-100 cursor-not-allowed focus:ring-0 hover:ring-0 hover:outline-none focus:ring-none focus:shadow-none focus:outline-none focus:bg-gray-200 hover:bg-gray-200 disabled:bg-gray-200"
-                                    name="username" value="<?= htmlspecialchars($current_user['username']) ?>" readonly>
-                            </div>
-                            <div class="sm:col-span-3">
-                                <label for="fullname" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Full name
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <input id="fullname" type="text"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="fullname" value="<?= htmlspecialchars($current_user['full_name']) ?>">
-                            </div>
-                            <div class="sm:col-span-3">
-                                <label for="email" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Email
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <input id="email" type="email"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="email" value="<?= htmlspecialchars($current_user['email']) ?>">
-                            </div>
-                            <div class="sm:col-span-3">
-                                <label for="password" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Password
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <div class="space-y-2">
-                                    <input id="password" type="password" name="password"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                        placeholder="Enter current password">
-                                    <input type="password"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                        placeholder="Enter new password (optional)" id="new-password"
-                                        name="new-password">
-                                </div>
-                            </div>
-                            <div class="sm:col-span-3">
-                                <label for="gender" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Gender
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <div class="sm:flex">
-                                    <label for="male"
-                                        class="flex py-2 px-3 w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-                                        <input type="radio" name="gender"
-                                            class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            id="male" value="male" <?= $current_user['gender'] == 'male' ? 'checked' : '' ?>>
-                                        <span class="text-sm text-gray-500 ms-3">Male</span>
-                                    </label>
-                                    <label for="female"
-                                        class="flex py-2 px-3 w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-                                        <input type="radio" name="gender"
-                                            class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            id="female" value="female" <?= $current_user['gender'] == 'female' ? 'checked' : '' ?>>
-                                        <span class="text-sm text-gray-500 ms-3">Female</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-5 flex justify-end gap-x-2">
-                            <button type="reset"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50">
-                                Cancel
-                            </button>
-                            <button type="submit"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                Save changes
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- update profile -->
-            <!-- add content -->
-            <div class="dashboard-section max-w-[1100px] px-4 py-10 sm:px-6 lg:px-8 mx-auto" id="update-content">
-                <div class="bg-white rounded-xl shadow p-4 sm:p-7">
-                    <div class="mb-8">
-                        <h2 class="text-xl font-bold text-gray-800">
-                            Add Content
-                        </h2>
-                        <p class="text-sm text-gray-600">
-                            Add your content, such as news, articles, or blog posts.
-                        </p>
-                    </div>
-                    <form action="../actions/add_content_action.php" method="POST" enctype="multipart/form-data">
-                        <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
-                            <div class="sm:col-span-3">
-                                <label for="title" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Title
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <input id="title" type="text"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="title" placeholder="Your title here">
-                            </div>
-                            <div class="sm:col-span-3">
-                                <label for="short-description" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Short description
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <textarea id="short-description" name="short_description"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    placeholder="Your short description here"></textarea>
-                            </div>
-                            <div class="sm:col-span-3">
-                                <label for="content" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Content
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <textarea id="content" name="content"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    placeholder="Your content here"></textarea>
-                            </div>
-                            <div class="sm:col-span-3">
-                                <label for="image" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Image
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <label for="image-url" class="sr-only">Choose file</label>
-                                <input type="file" name="image-url" id="image-url" class="block w-full border border-gray-100 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400
-                                file:bg-gray-50 file:border-0
-                                file:me-4
-                                file:py-2 file:px-4
-                                dark:file:bg-neutral-700 dark:file:text-neutral-400">
-                            </div>
-                        </div>
-                        <div class="mt-5 flex justify-end gap-x-2">
-                            <button type="reset"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50">
-                                Cancel
-                            </button>
-                            <button type="submit"
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                Add content
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- add content -->
         </div>
     </section>
     <!-- main -->
@@ -635,42 +485,6 @@ try {
     <script src="../node_modules/preline/dist/preline.js"></script>
     <!-- js -->
     <script src="../assets/js/script.js"></script>
-    <!-- script -->
-    <script>
-        const dashboardSection = document.querySelectorAll('.dashboard-section');
-        const dashboardParent = document.getElementById('dashboard-parent');
-
-        if (dashboardParent && dashboardSection.length > 0) {
-            const sections = {
-                'dashboard-button': 'dashboard',
-                'profile-button': 'update-profile',
-                'content-button': 'update-content',
-            };
-
-            dashboardSection.forEach((section, index) => {
-                section.classList.add('hidden');
-
-                if (index === 0) {
-                    section.classList.remove('hidden');
-                }
-            });
-
-            dashboardParent.addEventListener('click', function(event) {
-                const targetId = event.target.id;
-
-                if (sections[targetId]) {
-                    dashboardSection.forEach(section =>
-                        section.classList.add('hidden')
-                    );
-
-                    const targetSection = document.getElementById(sections[targetId]);
-                    if (targetSection) {
-                        targetSection.classList.remove('hidden');
-                    }
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>
