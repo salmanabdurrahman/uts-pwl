@@ -244,7 +244,8 @@ $articlesResult = $conn->query($getArticles);
                     Subscribe to our newsletter to receive news, updates and tips about SimpleNews.
                 </p>
             </div>
-            <form id="subscribeForm" method="POST" action="../pages/home.php">
+            <form id="subscribeForm" method="POST" action="../actions/subscribe_action.php">
+                <input type="hidden" name="redirect" value="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <div class="w-full sm:max-w-lg md:ms-auto">
                     <div class="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
                         <div class="w-full">

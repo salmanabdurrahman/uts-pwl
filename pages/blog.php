@@ -200,14 +200,15 @@ $articlesResult = $conn->query($getArticles);
                     Subscribe to our newsletter to receive news, updates and tips about SimpleNews.
                 </p>
             </div>
-            <form id="subscribeForm" method="post">
+            <form id="subscribeForm" method="POST" action="../actions/subscribe_action.php">
+                <input type="hidden" name="redirect" value="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <div class="w-full sm:max-w-lg md:ms-auto">
                     <div class="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
                         <div class="w-full">
                             <label for="email" class="sr-only">Search</label>
                             <input type="email" id="email" name="email" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter your email">
                         </div>
-                        <button type="submit" class="w-full sm:w-auto whitespace-nowrap py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                        <button type="submit" class="w-full sm:w-auto whitespace-nowrap py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" name="subscribe">
                             Subscribe
                         </button>
                     </div>
