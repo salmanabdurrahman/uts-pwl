@@ -27,6 +27,7 @@ SimpleNews adalah website berita sederhana yang menampilkan berita-berita terkin
 
 ## Struktur Direktori
 
+```bash
 project/
 ├── actions/
 ├── admin/
@@ -51,6 +52,7 @@ project/
 ├── pnpm-lock.yaml
 ├── README.md
 └──tailwind.config.js
+```
 
 ## CRUD dan Olah Data
 
